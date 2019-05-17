@@ -5,6 +5,7 @@ var url = require("url");
 var XMLHttpRequest = require('w3c-xmlhttprequest').XMLHttpRequest;
 
 
+
 function iniciar(response, postData) {
     console.log("Manipulador de peticion 'inicio' fue llamado.");
     var f = 'index.html';
@@ -36,10 +37,23 @@ function subir(response, dataPosteada) {
     console.log(filas);
     console.log(columnas);
     console.log(sitios);
+    var f = 'estilo.css';
+    fs.readFile(f,function (err, data) {
+        if(err){
+            console.log('hubo un error');
+            console.log(data);
+        }else{
+            console.log('archivo se copio')
+
+        }
+    });
 
     var body = '<html>'+
         '<head>'+
         '<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />'+
+        '<style>table, th, td {\n' +
+        '  border: 1px solid black;\n' +
+        '}</style>'+
         '</head>'+
         '<body>'+
         '<table>';
@@ -68,7 +82,7 @@ function subir(response, dataPosteada) {
             body += '</table>'+'</body>'+
                 '</html>';
             }
-        
+
         response.write(body);
         response.end();
     };
