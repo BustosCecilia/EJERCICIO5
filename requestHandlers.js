@@ -37,6 +37,13 @@ function subir(response, dataPosteada) {
     console.log(columnas);
     console.log(sitios);
 
+    var body = '<html>'+
+        '<head>'+
+        '<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />'+
+        '</head>'+
+        '<body>'+
+        '<table>';
+
 
     var request = new XMLHttpRequest();
     request.open('GET', 'https://api.mercadolibre.com/trends/'+ sitios, true);
@@ -44,17 +51,29 @@ function subir(response, dataPosteada) {
             // Begin accessing JSON data here
             var data = JSON.parse(this.response);
             if (request.status >= 200 && request.status < 400) {
-                data.forEach( thends=>{
+                console.log(data[0].keyword);
+               /* data.forEach( thends=>{
                     response.write(thends.keyword);
+
                 });
+                */
+           // body = +'<tr>'
+                for (i = 1; i <= filas; i++) {
+                  body += '<tr>';
+                    for (j = 1; j <= columnas; j++) {
+                        body += '  <td>' + data[i*j].keyword + '</td>';
+                    }
+                    body += '<tr>';
+                }
+            body += '</table>'+'</body>'+
+                '</html>';
             }
-            response.end();
-        };
+        
+        response.write(body);
+        response.end();
+    };
 
     request.send();
-
-
-
 }
 exports.iniciar = iniciar;
 exports.subir = subir;
